@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Vip Slots</string>
+
+    <string name="action_spin">Spin!</string>
+    <string name="action_plus">+</string>
+    <string name="action_minus">-</string>
+    <string name="action_take_coins">Take 1000 coins!</string>
+
+    <string name="label_combinations">Combinations</string>
+    <string name="label_coins">My coins</string>
+    <string name="label_lines">Lines</string>
+    <string name="label_bet">Bet</string>
+    <string name="label_jackpot">250,565</string>
+    <string name="label_win">You won!</string>
+
+    <string name="label_first_line">First line</string>
+    <string name="label_second_line">Second line</string>
+    <string name="label_third_line">Third line</string>
+
+</resources>

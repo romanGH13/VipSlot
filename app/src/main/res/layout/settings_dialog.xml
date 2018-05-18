@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBlack"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <CheckBox
+        android:id="@+id/cb1"
+        style="@style/TextViewPrimary"
+        android:checked="true"
+        android:text="@string/label_first_line"/>
+
+    <CheckBox
+        android:id="@+id/cb2"
+        style="@style/TextViewPrimary"
+        android:checked="true"
+        android:text="@string/label_second_line"/>
+
+    <CheckBox
+        android:id="@+id/cb3"
+        style="@style/TextViewPrimary"
+        android:checked="true"
+        android:text="@string/label_third_line"/>
+
+    <Button
+        android:id="@+id/button_take_coins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/big_button_click"
+        android:text="@string/action_take_coins" />
+
+</LinearLayout>
