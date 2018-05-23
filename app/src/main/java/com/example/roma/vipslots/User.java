@@ -14,9 +14,9 @@ public class User {
     public User()
     {
         this.balance = 1000;
-        this.firstLine = true;
+        this.firstLine = false;
         this.secondLine = true;
-        this.thirdLine = true;
+        this.thirdLine = false;
         this.bet = 5;
     }
 

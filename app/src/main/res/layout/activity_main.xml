@@ -71,22 +71,23 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <android.support.v7.widget.RecyclerView
+            <com.example.roma.vipslots.MyRecyclerView
                 android:id="@+id/leftColumn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@mipmap/spinner"
                 android:orientation="vertical"
                 android:padding="5dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/middleColumn"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </android.support.v7.widget.RecyclerView>
+            </com.example.roma.vipslots.MyRecyclerView>
 
-            <android.support.v7.widget.RecyclerView
+            <com.example.roma.vipslots.MyRecyclerView
                 android:id="@+id/middleColumn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -94,15 +95,16 @@
                 android:background="@mipmap/spinner"
                 android:orientation="vertical"
                 android:padding="5dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/rightColumn"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/leftColumn"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </android.support.v7.widget.RecyclerView>
+            </com.example.roma.vipslots.MyRecyclerView>
 
-            <android.support.v7.widget.RecyclerView
+            <com.example.roma.vipslots.MyRecyclerView
                 android:id="@+id/rightColumn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -110,19 +112,22 @@
                 android:background="@mipmap/spinner"
                 android:orientation="vertical"
                 android:padding="5dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/middleColumn"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </android.support.v7.widget.RecyclerView>
+            </com.example.roma.vipslots.MyRecyclerView>
 
             <ImageView
                 android:id="@+id/line1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/spinner_line_goriz"
+                android:visibility="invisible"
+                android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +138,7 @@
                 android:id="@+id/line2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:scaleType="fitXY"
                 android:src="@mipmap/spinner_line_goriz"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -144,6 +150,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/spinner_line_goriz"
+                android:visibility="invisible"
+                android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

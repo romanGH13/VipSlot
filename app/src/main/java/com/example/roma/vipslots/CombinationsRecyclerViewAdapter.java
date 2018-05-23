@@ -22,12 +22,14 @@ public class CombinationsRecyclerViewAdapter extends RecyclerView.Adapter<Combin
     private Map<String, String> mData;
     private LayoutInflater mInflater;
     private boolean isForJackpot;
+    private int height;
 
     // data is passed into the constructor
-    CombinationsRecyclerViewAdapter(Context context, Map<String, String> data, boolean isForJackpot) {
+    CombinationsRecyclerViewAdapter(Context context, Map<String, String> data, boolean isForJackpot, int height) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.isForJackpot = isForJackpot;
+        this.height = height;
     }
 
     // inflates the row layout from xml when needed
@@ -86,6 +88,18 @@ public class CombinationsRecyclerViewAdapter extends RecyclerView.Adapter<Combin
             image2 =(ImageView) itemView.findViewById(R.id.image2);
             image3 = (ImageView)itemView.findViewById(R.id.image3);
             value =(TextView) itemView.findViewById(R.id.value);
+
+            ViewGroup.LayoutParams params1 = (ViewGroup.LayoutParams) image1.getLayoutParams();
+            params1.height = (height / 8);
+            image1.setLayoutParams(params1);
+
+            ViewGroup.LayoutParams params2 = (ViewGroup.LayoutParams) image2.getLayoutParams();
+            params2.height = (height / 8);
+            image2.setLayoutParams(params2);
+
+            ViewGroup.LayoutParams params3 = (ViewGroup.LayoutParams) image3.getLayoutParams();
+            params3.height = (height / 8);
+            image3.setLayoutParams(params3);
         }
 
         @Override

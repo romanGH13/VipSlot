@@ -10,7 +10,7 @@
     <CheckBox
         android:id="@+id/cb1"
         style="@style/TextViewPrimary"
-        android:checked="true"
+        android:checked="false"
         android:text="@string/label_first_line"/>
 
     <CheckBox
@@ -22,7 +22,7 @@
     <CheckBox
         android:id="@+id/cb3"
         style="@style/TextViewPrimary"
-        android:checked="true"
+        android:checked="false"
         android:text="@string/label_third_line"/>
 
     <Button

@@ -12,7 +12,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView leftColumn = null;
     private RecyclerView middleColumn = null;
     private RecyclerView rightColumn = null;
+
+    public static LinearLayout gameLayout = null;
 
     public User user = null;
     Map<String, String> combinationsDictionary = null;
@@ -52,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
         createCombinations();
 
-        initCombinationsRecyclerView();
-        initJackpotRecyclerView();
+        //initCombinationsRecyclerView();
+        //initJackpotRecyclerView();
 
-        setGameFields();
+        //setGameFields();
 
         ImageView img = (ImageView)findViewById(R.id.image_settings);
         img.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +70,45 @@ public class MainActivity extends AppCompatActivity {
                 showSettingsDialog();
             }
         });
+
+        // получаем доступный размер игрового поля и исходя их этого изменяем размер картинок
+        final LinearLayout gameLayout = (LinearLayout) findViewById(R.id.game_layout);
+        gameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int availableHeight = gameLayout.getMeasuredHeight();
+                if(availableHeight>0) {
+                    gameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    setGameFields(availableHeight, availableHeight/12);
+                }
+            }
+        });
+
+        final LinearLayout jackpotLayout = (LinearLayout) findViewById(R.id.jackpot_layout);
+        jackpotLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int availableHeight = jackpotLayout.getMeasuredHeight();
+                if(availableHeight>0) {
+                    jackpotLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    initJackpotRecyclerView(availableHeight, availableHeight/12);
+                }
+            }
+        });
+
+        final LinearLayout combinationsLayout = (LinearLayout) findViewById(R.id.combinations_layout);
+        combinationsLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int availableHeight = combinationsLayout.getMeasuredHeight();
+                if(availableHeight>0) {
+                    combinationsLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    initCombinationsRecyclerView(availableHeight, availableHeight/12/6);
+                }
+            }
+        });
     }
+
 
     public void updateCoins()
     {
@@ -95,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Метод заполнения данных об основных комбинациях
      */
-    private void initCombinationsRecyclerView() {
+    private void initCombinationsRecyclerView(int height, int margin) {
         RecyclerView combinationsRecyclerView = findViewById(R.id.combinations_recycler_view);
         combinationsRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -104,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         combinationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CombinationsRecyclerViewAdapter adapter = new CombinationsRecyclerViewAdapter(this, combinationsDictionary, false);
+        combinationsRecyclerView.addItemDecoration(new JackpotItemDecoration(margin));
+        CombinationsRecyclerViewAdapter adapter = new CombinationsRecyclerViewAdapter(this, combinationsDictionary, false, height);
         combinationsRecyclerView.setAdapter(adapter);
     }
 
@@ -131,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    private void setGameFields()
+    private void setGameFields(int height, int margin)
     {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
 
@@ -200,8 +243,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         leftColumn.setLayoutManager(layoutManager);
-        leftColumn.addItemDecoration(new JackpotItemDecoration(40));
-        GameRecyclerViewAdapter leftAdapter = new GameRecyclerViewAdapter(this, createRandom(2));
+        leftColumn.addItemDecoration(new JackpotItemDecoration(margin));
+
+
+        leftColumn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        GameRecyclerViewAdapter leftAdapter = new GameRecyclerViewAdapter(this, createRandom(2), height);
         leftColumn.setAdapter(leftAdapter);
 
         middleColumn = (RecyclerView)findViewById(R.id.middleColumn);
@@ -212,8 +263,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         middleColumn.setLayoutManager(layoutManager2);
-        middleColumn.addItemDecoration(new JackpotItemDecoration(40));
-        GameRecyclerViewAdapter middleAdapter = new GameRecyclerViewAdapter(this, createRandom(3));
+        middleColumn.addItemDecoration(new JackpotItemDecoration(margin));
+        middleColumn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        GameRecyclerViewAdapter middleAdapter = new GameRecyclerViewAdapter(this, createRandom(2), height);
         middleColumn.setAdapter(middleAdapter);
 
         rightColumn = (RecyclerView)findViewById(R.id.rightColumn);
@@ -224,9 +281,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         rightColumn.setLayoutManager(layoutManager3);
-        rightColumn.addItemDecoration(new JackpotItemDecoration(40));
-        GameRecyclerViewAdapter rightAdapter = new GameRecyclerViewAdapter(this, createRandom(4));
+        rightColumn.addItemDecoration(new JackpotItemDecoration(margin));
+        GameRecyclerViewAdapter rightAdapter = new GameRecyclerViewAdapter(this, createRandom(2), height);
         rightColumn.setAdapter(rightAdapter);
+        rightColumn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         rightColumn.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -322,7 +385,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Метод заполнения данных о джекпоте
      */
-    private void initJackpotRecyclerView() {
+    private void initJackpotRecyclerView(int height, int margin) {
+
         Map<String, String> jackpotDictionary = new LinkedHashMap<String, String>();
         jackpotDictionary.put("J", "combination_7");
         jackpotDictionary.put("50","combination_7");
@@ -336,8 +400,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         jackpotRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        jackpotRecyclerView.addItemDecoration(new JackpotItemDecoration(90));
-        CombinationsRecyclerViewAdapter adapter = new CombinationsRecyclerViewAdapter(this, jackpotDictionary, true);
+        jackpotRecyclerView.addItemDecoration(new JackpotItemDecoration(margin));
+        CombinationsRecyclerViewAdapter adapter = new CombinationsRecyclerViewAdapter(this, jackpotDictionary, true, height);
         jackpotRecyclerView.setAdapter(adapter);
     }
 
@@ -391,9 +455,9 @@ public class MainActivity extends AppCompatActivity {
         GameRecyclerViewAdapter rightAdapter = (GameRecyclerViewAdapter)rightColumn.getAdapter();
 
         // Изменяем данные в списках
-        leftAdapter.setData(createRandom(1));
+        leftAdapter.setData(createRandom(2));
         middleAdapter.setData(createRandom(2));
-        rightAdapter.setData(createRandom(3));
+        rightAdapter.setData(createRandom(2));
 
         // Уведомляем об изменении данных
         leftAdapter.notifyDataSetChanged();
